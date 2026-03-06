@@ -10,6 +10,13 @@ The suite includes:
 
 ---
 
+## Recent Improvements (v1.1.0)
+* **UI/UX Modernization**: The default `htdocs` template now features a polished, glassmorphic design system under `main.css`, improved typography, and modernized navigation components with Font Awesome icons.
+* **Vite Bundler**: The Javascript library (`jslib`) compilation process has been modernized to use **Vite** rather than legacy bash scripts.
+* **Day.js Integration**: The deprecated `Moment.js` library has been fully replaced with the lightweight `Day.js`, improving page rendering and reducing payload sizes across the board.
+
+---
+
 ## What is APRS?
 
 The **Automatic Packet Reporting System (APRS)** is a digital communication protocol used by amateur radio operators worldwide to share real-time tactical information. 

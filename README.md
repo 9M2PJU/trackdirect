@@ -1,5 +1,4 @@
 <div align="center">
-  <img src="htdocs/public/images/favicon.ico" alt="TrackDirect Logo" width="80" height="80">
   <h1>APRS Track Direct</h1>
   <p><strong>A modern, high-performance suite for creating APRS-based real-time tracking websites.</strong></p>
 

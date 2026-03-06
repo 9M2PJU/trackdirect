@@ -53,3 +53,9 @@ services:
       POSTGRES_DB: trackdirect
     volumes:
       - $PWD/db:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7-alpine
+    restart: always
+    ports:
+      - "6379:6379"

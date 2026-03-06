@@ -8,3 +8,4 @@ jsmin
 psutil~=6.0.0
 git+https://github.com/rossengeorgiev/aprs-python
 aprslib~=0.7.2
+redis~=5.0.1

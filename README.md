@@ -38,13 +38,16 @@ graph TD
     A[APRS-IS / CWOP / OGN] -->|Raw Data| B(APRS Data Collector)
     B -->|Structured Data| C{PostgreSQL Database}
     B -->|Live Feed| D(Python WebSocket Server)
-    D <-->|Real-time Events| E[TrackDirect JS Client]
+    C -.->|Memoized Payloads| R[(Redis Cache)]
+    R -.->|Cached Query| D
+    D <-->|Real-time Events & History| E[TrackDirect JS Client]
     C -->|Historical / Heatmap| E
     E --> F[Example Web UI]
     
     style A fill:#f9f,stroke:#333,stroke-width:2px
     style E fill:#bbf,stroke:#333,stroke-width:2px
     style C fill:#bfb,stroke:#333,stroke-width:2px
+    style R fill:#f96,stroke:#333,stroke-width:2px
 ```
 
 ---
@@ -54,6 +57,7 @@ graph TD
 * 🔮 **UI/UX Modernization**: The default `htdocs` template now features a polished, glassmorphic design system under `main.css`, improved typography, and modernized navigation components with Font Awesome tracking icons.
 * 📦 **Vite Bundler**: The Javascript library (`jslib`) compilation process has been thoroughly modernized to use the lightning-fast **Vite** bundler rather than legacy Bash/PHP compilation scripts.
 * ⏰ **Day.js Integration**: The deprecated `Moment.js` library has been completely replaced with the lightweight `Day.js`. This dramatically improves initial page rendering and reduces global payload sizes across the board.
+* ⚡ **Redis Performance Caching**: We integrated a Redis layer to memoize extremely heavy PostgreSQL queries during mass map sector aggregation, giving the WebSocket server a massive performance boost over repeated data checks.
 
 ---
 

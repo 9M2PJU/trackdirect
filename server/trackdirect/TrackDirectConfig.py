@@ -183,3 +183,13 @@ class TrackDirectConfig(Singleton):
                 self.collector[collector_number]['detect_duplicates'] = False
 
                 self.collector[collector_number]['error_log'] = None
+
+        # Redis Cache
+        try:
+            self.redis_host = config_parser.get('redis', 'host').strip('"')
+            self.redis_port = int(config_parser.get('redis', 'port').strip('"'))
+            self.redis_enabled = config_parser.get('redis', 'enabled').strip('"') == "1"
+        except (NoSectionError, NoOptionError):
+            self.redis_host = 'redis'
+            self.redis_port = 6379
+            self.redis_enabled = False

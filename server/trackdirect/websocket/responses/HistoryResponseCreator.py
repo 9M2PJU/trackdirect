@@ -3,6 +3,7 @@ import psycopg2, psycopg2.extras
 from server.trackdirect.repositories.PacketRepository import PacketRepository
 from server.trackdirect.websocket.queries.StationIdByMapSectorQuery import StationIdByMapSectorQuery
 from server.trackdirect.websocket.responses.ResponseDataConverter import ResponseDataConverter
+from server.trackdirect.database.RedisCache import RedisCache
 
 
 class HistoryResponseCreator:
@@ -20,6 +21,7 @@ class HistoryResponseCreator:
         self.db = db
         self.packet_repository = PacketRepository(db)
         self.response_data_converter = ResponseDataConverter(state, db)
+        self.cache = RedisCache()
 
     def get_responses(self, request, request_id):
         """Create all history responses for the current request.
@@ -123,6 +125,11 @@ class HistoryResponseCreator:
 
         current_min_timestamp = self.state.get_station_latest_timestamp_on_map(station_id) or min_timestamp
 
+        cache_key = f"hist_resp:recent:{station_id}:{map_sector}:{current_min_timestamp}:{include_complete_history}:{self.state.only_latest_packet_requested}"
+        cached_response = self.cache.get(cache_key)
+        if cached_response is not None:
+             return cached_response
+
         if not self.state.only_latest_packet_requested or include_complete_history:
             packets = self.packet_repository.get_object_list_by_station_id_list(current_station_ids, current_min_timestamp)
         else:
@@ -134,7 +141,9 @@ class HistoryResponseCreator:
         if packets:
             flags = ["latest"] if only_latest_packet_fetched else []
             data = self.response_data_converter.get_response_data(packets, [map_sector], flags)
-            return {'payload_response_type': 2, 'data': data}
+            response = {'payload_response_type': 2, 'data': data}
+            self.cache.set(cache_key, response, 30)
+            return response
 
     def _get_past_history_response(self, station_id, map_sector, min_timestamp, include_complete_history=False):
         """Creates a history response for the specified station, includes all packets between minTimestamp and the current latestTimeTravelRequest timestamp.
@@ -154,6 +163,11 @@ class HistoryResponseCreator:
 
         current_min_timestamp = self.state.get_station_latest_timestamp_on_map(station_id) or min_timestamp
 
+        cache_key = f"hist_resp:past:{station_id}:{map_sector}:{current_min_timestamp}:{include_complete_history}:{self.state.only_latest_packet_requested}:{self.state.latest_time_travel_request}"
+        cached_response = self.cache.get(cache_key)
+        if cached_response is not None:
+             return cached_response
+
         if self.state.only_latest_packet_requested and not include_complete_history:
             if station_id not in self.state.stations_on_map_dict:
                 only_latest_packet_fetched = True
@@ -167,7 +181,9 @@ class HistoryResponseCreator:
         if packets:
             flags = ["latest"] if only_latest_packet_fetched else []
             data = self.response_data_converter.get_response_data(packets, [map_sector], flags)
-            return {'payload_response_type': 2, 'data': data}
+            response = {'payload_response_type': 2, 'data': data}
+            self.cache.set(cache_key, response, 300)
+            return response
 
     def _get_station_ids_by_map_sector(self, map_sector):
         """Returns the station id's in specified map sector.

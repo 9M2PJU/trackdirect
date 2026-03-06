@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file.
 - Integrated **Vite** as the modern bundler inside the `jslib/` directory, replacing the legacy `build.sh` and `jsmin` script workflow.
 - Introduced a full, custom CSS glassmorphic design system inside `htdocs/public/css/main.css`.
 - Added Day.js localization format (`localizedFormat` plugin) to keep legacy Moment.js formatting behavior (`L LTSZ`).
+- Integrated **Redis** into the default Docker topology (`docker-compose.yml` and `docker-compose-rel.yml`) to memoize the heaviest PostgreSQL map sector aggregation operations on the WebSocket Server, radically enhancing performance.
 
 ### Changed
 - Replaced the deprecated `Moment.js` dependency across the frontend application with `Day.js`, noticeably improving bundle sizes and rendering speed.

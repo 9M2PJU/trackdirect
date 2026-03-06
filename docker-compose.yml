@@ -16,8 +16,10 @@ services:
       - $PWD/config/trackdirect.ini:/root/trackdirect/config/trackdirect.ini
     command: /root/trackdirect/server/scripts/collector.sh trackdirect.ini 0
     depends_on:
-      - "db"
-      - "aprsc"
+      db:
+        condition: service_healthy
+      aprsc:
+        condition: service_started
 
   websocket:
     build:
@@ -29,8 +31,10 @@ services:
     #ports:
     #  - "8090:8090"
     depends_on:
-      - "db"
-      - "aprsc"
+      db:
+        condition: service_healthy
+      aprsc:
+        condition: service_started
 
   cron:
     build:
@@ -39,7 +43,8 @@ services:
     volumes:
       - $PWD/config/trackdirect.ini:/root/trackdirect/config/trackdirect.ini
     depends_on:
-      - "db"
+      db:
+        condition: service_healthy
 
   web:
     build:
@@ -51,7 +56,8 @@ services:
     #ports:
     #  - "8080:80"
     depends_on:
-      - "db"
+      db:
+        condition: service_healthy
 
   db:
     build:
@@ -64,6 +70,11 @@ services:
     volumes:
       - $PWD/db:/var/lib/postgresql/data
     command: -c config_file=/etc/postgresql.conf
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     #ports:
     #  - "5432:5432"
 
@@ -76,10 +87,14 @@ services:
     depends_on:
       - "web"
       - "websocket"
-      
+
   redis:
     image: redis:7-alpine
     restart: always
     ports:
       - "6379:6379"
-
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5

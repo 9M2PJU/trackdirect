@@ -10,6 +10,7 @@ All notable changes to this project will be documented in this file.
 - Added Day.js localization format (`localizedFormat` plugin) to keep legacy Moment.js formatting behavior (`L LTSZ`).
 - Integrated **Redis** into the default Docker topology (`docker-compose.yml` and `docker-compose-rel.yml`) to memoize the heaviest PostgreSQL map sector aggregation operations on the WebSocket Server, radically enhancing performance.
 - Injected strict SQL composite indexing `(station_id, map_id, timestamp)` and `(station_id, is_moving, timestamp)` into the Python automatic `packet` partition generator to massively narrow the rows processed during real-time queries.
+- Defined explicit Docker `healthcheck` blocks (`pg_isready` and `redis-cli ping`) and updated application container dependencies to `condition: service_healthy`. Docker will now automatically self-recover stuck database processes.
 
 ### Changed
 - Replaced the deprecated `Moment.js` dependency across the frontend application with `Day.js`, noticeably improving bundle sizes and rendering speed.

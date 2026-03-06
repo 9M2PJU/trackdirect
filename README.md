@@ -52,13 +52,14 @@ graph TD
 
 ---
 
-## 🚀 Recent Improvements (v1.2.1)
+## 🚀 Recent Improvements (v1.2.2)
 
 * 🔮 **UI/UX Modernization**: The default `htdocs` template now features a polished, glassmorphic design system under `main.css`, improved typography, and modernized navigation components with Font Awesome tracking icons.
 * 📦 **Vite Bundler**: The Javascript library (`jslib`) compilation process has been thoroughly modernized to use the lightning-fast **Vite** bundler rather than legacy Bash/PHP compilation scripts.
 * ⏰ **Day.js Integration**: The deprecated `Moment.js` library has been completely replaced with the lightweight `Day.js`. This dramatically improves initial page rendering and reduces global payload sizes across the board.
 * ⚡ **Redis Performance Caching**: We integrated a Redis layer to memoize extremely heavy PostgreSQL queries during mass map sector aggregation, giving the WebSocket server a massive performance boost over repeated data checks.
 * 🧮 **PostgreSQL Query Tuning**: Core tables are now strictly bound with massive composite table indices matching our exact retrieval algorithms, allowing historical queries to bypass redundant timeline scans directly.
+* 🛡️ **Zero-Touch Reliability Tools**: The Docker topology utilizes rigorous network healthchecks (`pg_isready`) so the application can automatically self-recover from backend crashes, while the database intelligently drops stale geodata out-of-the-box using crontab configurations.
 
 ---
 

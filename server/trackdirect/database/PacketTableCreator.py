@@ -105,6 +105,8 @@ class PacketTableCreator:
                 f"ALTER TABLE {table_name} ADD CONSTRAINT timestamp_range_check CHECK (timestamp >= {min_timestamp} AND timestamp < {max_timestamp})",
                 f"CREATE INDEX {table_name}_pkey ON {table_name} USING btree (id)",
                 f"CREATE INDEX {table_name}_station_id_idx ON {table_name} (station_id, map_id, marker_id, timestamp)",
+                f"CREATE INDEX {table_name}_station_map_ts_idx ON {table_name} (station_id, map_id, timestamp)",
+                f"CREATE INDEX {table_name}_station_moving_idx ON {table_name} (station_id, is_moving, timestamp)",
                 f"CREATE INDEX {table_name}_map_sector_idx ON {table_name} (map_sector, timestamp, map_id)",
                 f"CREATE INDEX {table_name}_sender_id_idx ON {table_name} (sender_id)"
             ]

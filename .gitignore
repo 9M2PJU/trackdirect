@@ -24,3 +24,6 @@ db
 /venv
 /virtualenv
 .qodo
+
+# Javascript
+jslib/node_modules/

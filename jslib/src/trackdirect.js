@@ -1,3 +1,32 @@
+import './other/common.js';
+import './trackdirect/services/callbackExecutor.js';
+import './trackdirect/services/dateFormatter.js';
+import './trackdirect/services/distanceCalculator.js';
+import './trackdirect/services/imperialConverter.js';
+import './trackdirect/services/mapAttributionModifier.js';
+import './trackdirect/services/mapSectorCalculator.js';
+import './trackdirect/services/stationColorCalculator.js';
+import './trackdirect/services/symbolPathFinder.js';
+import './trackdirect/models/DashedTailPolyline.js';
+import './trackdirect/models/DirectionPolyline.js';
+import './trackdirect/models/HeatMap.js';
+import './trackdirect/models/InfoWindow.js';
+import './trackdirect/models/Label.js';
+import './trackdirect/models/Map.js';
+import './trackdirect/models/MapState.js';
+import './trackdirect/models/Marker.js';
+import './trackdirect/models/MarkerCollection.js';
+import './trackdirect/models/Packet.js';
+import './trackdirect/models/PhgCircle.js';
+import './trackdirect/models/RngCircle.js';
+import './trackdirect/models/Ruler.js';
+import './trackdirect/models/StationCoveragePolygon.js';
+import './trackdirect/models/TailPolyline.js';
+import './trackdirect/models/TransmitAnimation.js';
+import './trackdirect/models/TransmitPolyline.js';
+import './trackdirect/Websocket.js';
+import './trackdirect/MarkerCreator.js';
+
 var trackdirect = {
   services: {},
   models: {},
@@ -517,7 +546,7 @@ var trackdirect = {
             alert("Failed to fetch coverage data. Try again later!");
             $("." + coverageLinkElementClass).html("Coverage");
           })
-          .always(function () {});
+          .always(function () { });
       }
     }
   },
@@ -2420,3 +2449,6 @@ var trackdirect = {
     }
   },
 };
+
+
+window.trackdirect = trackdirect;

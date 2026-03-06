@@ -20,11 +20,11 @@ trackdirect.services.dateFormatter = {
       typeof useLocalTimeZone !== "undefined" ? useLocalTimeZone : true;
     let date = new Date(timestamp * 1000);
 
-    let theMoment
+    let theMoment;
     if (useLocalTimeZone) {
-      theMoment = moment(date);
+      theMoment = dayjs(date);
     } else {
-      theMoment = moment.utc(date);
+      theMoment = dayjs.utc(date);
     }
 
     if (!theMoment.isValid()) {

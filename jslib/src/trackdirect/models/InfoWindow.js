@@ -515,7 +515,7 @@ trackdirect.models.InfoWindow.prototype._getPacketTimeDiv = function () {
     dateString = '<span style="color: grey;">No known packet for specified limits.</span>';
   } else {
     let date = new Date(this._marker.packet.timestamp * 1000);
-    dateString = moment(date).format(trackdirect.settings.dateFormatNoTimeZone);
+    dateString = dayjs(date).format(trackdirect.settings.dateFormatNoTimeZone);
     if (
       this._marker.packet.timestamp > this._marker.packet.position_timestamp &&
       !trackdirect.isMobile
@@ -524,9 +524,9 @@ trackdirect.models.InfoWindow.prototype._getPacketTimeDiv = function () {
         this._marker.packet.position_timestamp * 1000
       );
       dateString =
-        moment(positionDate).format(trackdirect.settings.dateFormatNoTimeZone) +
+        dayjs(positionDate).format(trackdirect.settings.dateFormatNoTimeZone) +
         " - " +
-        moment(date).format(trackdirect.settings.dateFormatNoTimeZone);
+        dayjs(date).format(trackdirect.settings.dateFormatNoTimeZone);
     }
     if (
       this._defaultMap.state.endTimeTravelTimestamp !== null &&
@@ -1080,7 +1080,7 @@ trackdirect.models.InfoWindow.prototype._getWeatherDiv = function () {
   ) {
     weatherDate = new Date(this._marker.packet.weather.timestamp * 1000);
   }
-  weatherDateString = moment(weatherDate).format(
+  weatherDateString = dayjs(weatherDate).format(
     trackdirect.settings.dateFormatNoTimeZone
   );
   weatherDiv.append("<b>Latest Weather</b>  " + weatherDateString + "<br/>");
@@ -1107,7 +1107,7 @@ trackdirect.models.InfoWindow.prototype._getTelemetryDiv = function () {
   let telemetryDate = new Date(
     this._marker.packet.latest_telemetry_packet_timestamp * 1000
   );
-  telemetryDateString = moment(telemetryDate).format(
+  telemetryDateString = dayjs(telemetryDate).format(
     trackdirect.settings.dateFormatNoTimeZone
   );
   telemetryDiv.append("Latest Telemetry  " + telemetryDateString + "<br/>");

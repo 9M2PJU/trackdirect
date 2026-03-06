@@ -127,14 +127,14 @@ trackdirect.models.Marker.prototype.getPositionLiteral = function () {
   if (typeof google === "object" && typeof google.maps === "object") {
     let latLng = this.getPosition();
     if (typeof latLng !== "undefined" && typeof latLng.lat === "function") {
-      return {lat: latLng.lat(), lng: latLng.lng()};
+      return { lat: latLng.lat(), lng: latLng.lng() };
     } else {
       return latLng;
     }
   } else if (typeof L === "object") {
     let latLng = this.getLatLng();
     if (typeof latLng !== "undefined") {
-      return {lat: latLng.lat, lng: latLng.lng};
+      return { lat: latLng.lat, lng: latLng.lng };
     } else {
       return latLng;
     }
@@ -490,7 +490,7 @@ trackdirect.models.Marker.prototype.showMarkerTail = function () {
         this._defaultMap.state.getClientTimestamp(
           polyline.getPathItem(0).marker.packet.timestamp
         ) < this._defaultMap.state.getOldestAllowedPacketTimestamp()
-        ) {
+      ) {
         let relatedMarker = polyline.getPathItem(0).marker;
         if (relatedMarker.getMap() === null) {
           // related marker is to old and is not visible, it will never be shown.
@@ -905,14 +905,14 @@ trackdirect.models.Marker.prototype.getToolTipContent = function () {
   let date = new Date(this.packet.timestamp * 1000);
   let positionDate = new Date(this.packet.position_timestamp * 1000);
 
-  let dateString = moment(date).format(
+  let dateString = dayjs(date).format(
     trackdirect.settings.dateFormatNoTimeZone
   );
   if (this.packet.timestamp > this.packet.position_timestamp) {
     dateString =
-      moment(positionDate).format(trackdirect.settings.dateFormatNoTimeZone) +
+      dayjs(positionDate).format(trackdirect.settings.dateFormatNoTimeZone) +
       " - " +
-      moment(date).format(trackdirect.settings.dateFormatNoTimeZone);
+      dayjs(date).format(trackdirect.settings.dateFormatNoTimeZone);
   }
 
   if (this.packet.getOgnRegistration() != null) {

@@ -56,11 +56,12 @@ The **Track Direct JavaScript library** powers all map-related features, includi
 - Communicating with the backend WebSocket server.
 - Supporting other interactive functionalities.
 
-If you make changes to the library (located in the `jslib` directory), rebuild it to apply updates to the `htdocs` directory by running:
+If you make changes to the library (located in the `jslib` directory), rebuild it to apply updates to the `htdocs` directory using Vite by running:
 
-```
-pip3 install jsmin
-~/trackdirect/jslib/build.sh
+```bash
+cd jslib
+npm install
+npm run build
 ```
 
 ### Adapt the website (htdocs)
